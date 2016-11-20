@@ -1,0 +1,44 @@
+.card .profile-pic {
+    float: left;
+    width: 88px;
+}
+
+.card .content {
+    float: right;
+    width: calc(100% - 72px);
+}
+
+.elipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.card {
+    overflow: hidden;
+}
+
+.card .content .data {
+    padding: 5px;
+}
+
+.card .content .posted-by {
+    padding: 5px;
+}
+
+.card .profile-pic > img {
+    position: absolute;
+    display: block;
+    height: 56px;
+    width: 56px;
+}
+
+.read {
+    background: #faebd7;
+    font-weight: bold;
+}
+
+.user, .group {
+    color: #4444AA;
+    font-weight: bold;
+}

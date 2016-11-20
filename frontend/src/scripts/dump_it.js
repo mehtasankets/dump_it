@@ -19,14 +19,11 @@
   var app = {
     isLoading: true,
     visibleCards: {},
-    selectedCities: [],
     spinner: document.querySelector('.loader'),
     cardTemplate: document.querySelector('.cardTemplate'),
     container: document.querySelector('.main'),
-    addDialog: document.querySelector('.dialog-container'),
-    daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    addDialog: document.querySelector('.dialog-container')
   };
-
 
   /*****************************************************************************
    *
@@ -80,30 +77,45 @@
   // Updates a weather card with the latest weather forecast. If the card
   // doesn't already exist, it's cloned from the template.
   app.updateData = function(data) {
-    var card = app.visibleCards[data.key];
-    if (!card) {
-      card = app.cardTemplate.cloneNode(true);
-      card.classList.remove('cardTemplate');
-      card.querySelector('.data').textContent = data.data;
-	  card.querySelector('.posted-by').textContent = data.postedBy;
-      card.removeAttribute('hidden');
-      app.container.appendChild(card);
-      app.visibleCards[data.key] = card;
-    }
-
-	if (app.isLoading) {
+    console.log(data);
+    data.forEach(function (d) {
+      var card = app.visibleCards[d.id];
+      if(!card) {
+        card = app.cardTemplate.cloneNode(true);
+        card.classList.remove('cardTemplate');
+        card.querySelector('.data').textContent = d.data; 
+        card.querySelector('.user').textContent = d.owner.name;
+        card.querySelector('.group').textContent = d.group.name;
+        var status = d.status.toLowerCase();
+        card.classList.add(status);
+        card.removeAttribute('hidden');
+        app.container.appendChild(card);
+        app.visibleCards[data.id] = card;
+      }  
+    });
+    if (app.isLoading) {
       app.spinner.setAttribute('hidden', true);
       app.container.removeAttribute('hidden');
       app.isLoading = false;
     }
   };
 
-  var initialData = {
-	key: '1',
-	data: 'My Data',
-    postedBy: 'Priyanka Rawool on MKPC',
-  };
+  var dataPromise = getAllInitialData();
+  dataPromise.then(function(response) {
+    app.updateData(response);
+  }).catch(function(err) {
+    throw new Error('Error while fetching data', err);
+  });
+  
 
-  app.updateData(initialData);
+  function getAllInitialData() {
+    return new Promise(function(resolve, reject) {
+      fetch('http://127.0.0.1:5000/getAllData').then(function(response) {
+        resolve(response.json());
+      }).catch(function(err) {
+        reject(err);
+      });
+    });
+  }
 
 })();

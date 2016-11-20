@@ -21,7 +21,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dump It!</title>
-  <link rel="stylesheet" type="text/css" href="styles/inline.css">  
+  <link rel="stylesheet" type="text/css" href="styles/inline.css">
+  <link rel="stylesheet" type="text/css" href="styles/dump_it.css">  
 </head>
 <body>
 
@@ -33,8 +34,15 @@
 
   <main class="main">
     <div class="card cardTemplate data-dump" hidden>
-      <div class="data"></div>
-      <div class="posted-by"></div>
+      <div class="profile-pic">
+        <img src="images/default_dp.jpg" />
+      </div>
+      <div class="content">
+        <div class="data elipsis"></div>
+        <div class="posted-by elipsis">
+          Dumped by <span class="user"></span> on <span class="group"></span>
+        </div>
+      </div>
     </div>
   </main>
 

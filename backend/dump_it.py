@@ -4,6 +4,7 @@ from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 import json
 import jsonpickle
 from flask import Flask, g, jsonify, request, abort, render_template
+from flask_cors import CORS, cross_origin
 from user_data_dump import UserDataDump
 from user import User
 from group import Group
@@ -24,6 +25,7 @@ STATUSES = {
     }
 
 app = Flask(__name__)
+CORS(app)
 
 @app.before_request
 def before_request():
@@ -123,7 +125,7 @@ def get_user_data_dump(json_data, user):
     return jsonpickle.encode(user_data_dumps, unpicklable=False)
 
 def get_user_id():
-    return 1
+    return 2
 
 if __name__ == '__main__':
     app.run(debug=True)
