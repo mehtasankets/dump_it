@@ -1,11 +1,18 @@
 .card .profile-pic {
     float: left;
-    width: 88px;
+    width: 56px;
 }
 
 .card .content {
     float: right;
-    width: calc(100% - 72px);
+    /* Content is spanned across profile pic + content block. 
+     * Padding for text inside content is 5 px. 
+     * Image width is 56px.
+     * As a gap of 10 px is required between an image and text content, 10 px space should be added in between.
+     * But as text inside content already has 5 px padding, only 5px spacing should be added to width.
+     * This brings us to a formula for width: 100% - (56 px + 5 px)
+     */ 
+    width: calc(100% - 61px);
 }
 
 .elipsis {
@@ -31,6 +38,7 @@
     display: block;
     height: 56px;
     width: 56px;
+    border-radius: 50%;
 }
 
 .read {

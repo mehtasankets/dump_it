@@ -110,7 +110,7 @@
 
   function getAllInitialData() {
     return new Promise(function(resolve, reject) {
-      fetch('http://127.0.0.1:5000/getAllData').then(function(response) {
+      fetch('http://localhost:5000/getAllData').then(function(response) {
         resolve(response.json());
       }).catch(function(err) {
         reject(err);
