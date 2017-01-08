@@ -181,7 +181,7 @@ body {
     -webkit-transform: rotate(90deg);
             transform: rotate(90deg); } }
 
-.main {
+.cards {
   padding-top: 60px;
   -webkit-box-flex: 1;
   -webkit-flex: 1;

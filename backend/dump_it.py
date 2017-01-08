@@ -57,6 +57,21 @@ def get_all_data():
     user = get_user(user_id)
     return get_user_data_dump(data, user)
 
+@app.route('/updateStatus')
+def update_status():
+    user_id = str(get_user_id())
+    status_id = int(request.args.get('status_id'))
+    data_dump_id = int(request.args.get('data_dump_id'))
+    r.table('data_dump').filter({'id': data_dump_id}).update({user_id: status_id}).run(g.rdb_conn)
+    return ''
+
+# @app.route('/addData')
+# def add_data():
+#     user_id = get_user_id()
+#     user_data_dump  = jsonpickle.decode(request.args.get('user_data_dump'))
+#     r.table('data_dump').filter({'id': data_dump_id}).update({user_id: status_id}).run(g.rdb_conn)
+#     return ''
+
 @app.route('/users')
 def get_users():
     data = list(r.table('user_group_map').eq_join('user_id', r.table('user')).zip()
@@ -122,6 +137,7 @@ def get_user_data_dump(json_data, user):
         status = get_status(data_row, user.id)
         user_data_dump = UserDataDump(data_row['id'], user, type, owner, group, data_row['data'], status)
         user_data_dumps.append(user_data_dump)
+    user_data_dumps.sort(key = lambda obj:(obj.status, obj.id))
     return jsonpickle.encode(user_data_dumps, unpicklable=False)
 
 def get_user_id():

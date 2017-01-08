@@ -21,9 +21,11 @@
     visibleCards: {},
     spinner: document.querySelector('.loader'),
     cardTemplate: document.querySelector('.cardTemplate'),
-    container: document.querySelector('.main'),
+    container: document.querySelector('.cards'),
     addDialog: document.querySelector('.dialog-container')
   };
+
+  var focussedElement;
 
   /*****************************************************************************
    *
@@ -31,19 +33,19 @@
    *
    ****************************************************************************/
 
-  document.getElementById('butRefresh').addEventListener('click', function() {
+  document.querySelector('#butRefresh').addEventListener('click', function() {
     // Refresh all of the forecasts
     app.updateForecasts();
   });
 
-  document.getElementById('butAdd').addEventListener('click', function() {
+  document.querySelector('#butAdd').addEventListener('click', function() {
     // Open/show the add new city dialog
     app.toggleAddDialog(true);
   });
 
-  document.getElementById('butAddCity').addEventListener('click', function() {
+  document.querySelector('#butAddCity').addEventListener('click', function() {
     // Add the newly selected city
-    var select = document.getElementById('selectCityToAdd');
+    var select = document.querySelector('#selectCityToAdd');
     var selected = select.options[select.selectedIndex];
     var key = selected.value;
     var label = selected.textContent;
@@ -53,11 +55,41 @@
     app.toggleAddDialog(false);
   });
 
-  document.getElementById('butAddCancel').addEventListener('click', function() {
+  document.querySelector('#butAddCancel').addEventListener('click', function() {
     // Close the add new city dialog
     app.toggleAddDialog(false);
   });
 
+  function addFocusEvents() {
+    document.querySelector('.cards').addEventListener('click', function(e) {
+      toggleCardState(e);
+    });
+  }
+
+  function toggleCardState(e) {
+    console.log('toggle');
+    var currElem = e.target;
+    while(!currElem.classList.contains('card')) {
+      currElem = currElem.parentElement;
+    }
+    var card = currElem;
+    if(card.querySelector('.data').classList.contains('elipsis')) {
+      card.querySelector('.data').classList.remove('elipsis');
+    } else {
+      card.querySelector('.data').classList.add('elipsis');
+    }
+    if(card.querySelector('.posted-by').classList.contains('elipsis')) {
+      card.querySelector('.posted-by').classList.remove('elipsis');
+    } else {
+      card.querySelector('.posted-by').classList.add('elipsis');
+    }
+    var prevElem = focussedElement;
+    if(prevElem && prevElem != card) {
+      prevElem.querySelector('.data').classList.add('elipsis');
+      prevElem.querySelector('.posted-by').classList.add('elipsis');
+    }
+    focussedElement = card;
+  }
 
   /*****************************************************************************
    *
@@ -78,12 +110,14 @@
   // doesn't already exist, it's cloned from the template.
   app.updateData = function(data) {
     console.log(data);
+    var tabIndex = 0;
     data.forEach(function (d) {
       var card = app.visibleCards[d.id];
       if(!card) {
         card = app.cardTemplate.cloneNode(true);
         card.classList.remove('cardTemplate');
-        card.querySelector('.data').textContent = d.data; 
+        card.setAttribute('tabIndex', tabIndex++);
+        card.querySelector('.data').innerHTML = d.data + 'aaaaaaaaaaaaaaaaaasdlkf ajlsdkfj alksdjflka dsjflk ajdslkfjalskdjf laksdjfl asdjfklasjdflkajsdklfjalskdfjalksdjfl akjsdlfkajlsd '; 
         card.querySelector('.user').textContent = d.owner.name;
         card.querySelector('.group').textContent = d.group.name;
         var status = d.status.toLowerCase();
@@ -98,6 +132,7 @@
       app.container.removeAttribute('hidden');
       app.isLoading = false;
     }
+    addFocusEvents();
   };
 
   var dataPromise = getAllInitialData();
