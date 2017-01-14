@@ -20,6 +20,7 @@ TYPES = {
         2: 'INFO'
     }
 STATUSES = {
+        0: 'UNREAD',
         1: 'READ',
         2: 'DELETED'
     }
@@ -62,8 +63,11 @@ def update_status():
     user_id = str(get_user_id())
     status_id = int(request.args.get('status_id'))
     data_dump_id = int(request.args.get('data_dump_id'))
-    r.table('data_dump').filter({'id': data_dump_id}).update({user_id: status_id}).run(g.rdb_conn)
-    return ''
+    if(status_id == 0):
+        r.table('data_dump').filter({'id': data_dump_id}).replace(r.row.without(user_id)).run(g.rdb_conn)    
+    else:
+        r.table('data_dump').filter({'id': data_dump_id}).update({user_id: status_id}).run(g.rdb_conn)
+    return str(status_id)
 
 # @app.route('/addData')
 # def add_data():

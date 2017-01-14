@@ -283,3 +283,33 @@
 2017-01-08T23:58:24.894825161 81.934559s info: Table 845206ef-2bb2-43d6-91ba-c46784fd9ab4: This server is Raft leader for term 12. Latest log index is 33.
 2017-01-08T23:58:24.907562868 81.947296s info: Table 5a94f107-4bac-46ed-91f4-d112f98b46d9: Starting a new Raft election for term 12.
 2017-01-08T23:58:25.028813587 82.068547s info: Table 5a94f107-4bac-46ed-91f4-d112f98b46d9: This server is Raft leader for term 12. Latest log index is 34.
+2017-01-09T00:57:21.436206456 3618.475940s notice: Server got SIGINT from pid 0, uid 0; shutting down...
+2017-01-09T00:57:21.436343275 3618.476077s notice: Shutting down client connections...
+2017-01-09T00:57:21.436422081 3618.476155s notice: All client connections closed.
+2017-01-09T00:57:21.436425402 3618.476159s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2017-01-09T00:57:21.451154643 3618.490888s notice: Storage engine shut down.
+2017-01-14T19:58:16.979488895 80.317073s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-01-14T19:58:17.028100576 80.365687s notice: Running on Linux 4.4.0-31-generic x86_64
+2017-01-14T19:58:17.028175727 80.365760s notice: Loading data from directory /home/sanket/workspace/dump_it/rethinkdb_data
+2017-01-14T19:58:17.820920287 81.158505s info: Automatically using cache size of 2746 MB
+2017-01-14T19:58:17.822425454 81.160010s notice: Listening for intracluster connections on port 29015
+2017-01-14T19:58:20.119116755 83.456701s notice: Listening for client driver connections on port 28015
+2017-01-14T19:58:20.119265644 83.456850s notice: Listening for administrative HTTP connections on port 8080
+2017-01-14T19:58:20.119269117 83.456853s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-01-14T19:58:20.119273209 83.456857s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-01-14T19:58:20.119293702 83.456878s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-01-14T19:58:20.119296562 83.456881s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-01-14T19:58:20.119299191 83.456883s notice: Server ready, "sanket_Lenovo_Z50_70_j1l" 7c3338e0-69c7-455d-a1d9-fec599702362
+2017-01-14T19:58:20.619932784 83.957517s info: Table 58feccbd-5fc7-4024-a4a1-82eb68f057a4: Starting a new Raft election for term 11.
+2017-01-14T19:58:20.721562731 84.059147s info: Table 58feccbd-5fc7-4024-a4a1-82eb68f057a4: This server is Raft leader for term 11. Latest log index is 30.
+2017-01-14T19:58:20.796831898 84.134416s info: Table 5a94f107-4bac-46ed-91f4-d112f98b46d9: Starting a new Raft election for term 13.
+2017-01-14T19:58:20.954450839 84.292035s info: Table 5a94f107-4bac-46ed-91f4-d112f98b46d9: This server is Raft leader for term 13. Latest log index is 37.
+2017-01-14T19:58:21.510688207 84.848273s info: Table 845206ef-2bb2-43d6-91ba-c46784fd9ab4: Starting a new Raft election for term 13.
+2017-01-14T19:58:21.723295380 85.060880s info: Table 845206ef-2bb2-43d6-91ba-c46784fd9ab4: This server is Raft leader for term 13. Latest log index is 36.
+2017-01-14T19:58:21.809738788 85.147323s info: Table c8503e84-83d6-4229-9010-82c0c21c59cf: Starting a new Raft election for term 11.
+2017-01-14T19:58:22.023818011 85.361403s info: Table c8503e84-83d6-4229-9010-82c0c21c59cf: This server is Raft leader for term 11. Latest log index is 29.
+2017-01-15T02:28:43.661755144 23506.999340s notice: Server got SIGINT from pid 0, uid 0; shutting down...
+2017-01-15T02:28:43.661929457 23506.999514s notice: Shutting down client connections...
+2017-01-15T02:28:43.662344421 23506.999929s notice: All client connections closed.
+2017-01-15T02:28:43.662396603 23506.999981s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2017-01-15T02:28:43.688960009 23507.026545s notice: Storage engine shut down.

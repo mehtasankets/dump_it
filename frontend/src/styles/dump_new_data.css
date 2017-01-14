@@ -1,0 +1,25 @@
+textarea {
+    overflow: hidden;
+    width:100%;
+    resize: none;
+    border:none;
+    background: transparent;
+}
+
+.dump-body {
+    padding: 10px 10px;
+    height: 100%;
+}
+
+.data-group-info { 
+    min-height: 10%;
+}
+
+.data-text { 
+    min-height: 90%;
+}
+
+#dump-data-btn {
+    background: url(/images/dump-new-data.png) center no-repeat;
+    background-size: 100% 100%;
+}

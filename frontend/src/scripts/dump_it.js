@@ -1,18 +1,3 @@
-// Copyright 2016 Google Inc.
-// 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// 
-//      http://www.apache.org/licenses/LICENSE-2.0
-// 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-
 (function() {
   'use strict';
 
@@ -27,38 +12,9 @@
 
   var focussedElement;
 
-  /*****************************************************************************
-   *
-   * Event listeners for UI elements
-   *
-   ****************************************************************************/
+  var READ_STATUS = 1;
 
-  document.querySelector('#butRefresh').addEventListener('click', function() {
-    // Refresh all of the forecasts
-    app.updateForecasts();
-  });
-
-  document.querySelector('#butAdd').addEventListener('click', function() {
-    // Open/show the add new city dialog
-    app.toggleAddDialog(true);
-  });
-
-  document.querySelector('#butAddCity').addEventListener('click', function() {
-    // Add the newly selected city
-    var select = document.querySelector('#selectCityToAdd');
-    var selected = select.options[select.selectedIndex];
-    var key = selected.value;
-    var label = selected.textContent;
-    // TODO init the app.selectedCities array here
-    app.getForecast(key, label);
-    // TODO push the selected city to the array and save here
-    app.toggleAddDialog(false);
-  });
-
-  document.querySelector('#butAddCancel').addEventListener('click', function() {
-    // Close the add new city dialog
-    app.toggleAddDialog(false);
-  });
+  var _data;
 
   function addFocusEvents() {
     document.querySelector('.cards').addEventListener('click', function(e) {
@@ -67,7 +23,6 @@
   }
 
   function toggleCardState(e) {
-    console.log('toggle');
     var currElem = e.target;
     while(!currElem.classList.contains('card')) {
       currElem = currElem.parentElement;
@@ -75,6 +30,7 @@
     var card = currElem;
     if(card.querySelector('.data').classList.contains('elipsis')) {
       card.querySelector('.data').classList.remove('elipsis');
+      updateStatus(card, READ_STATUS);
     } else {
       card.querySelector('.data').classList.add('elipsis');
     }
@@ -91,13 +47,20 @@
     focussedElement = card;
   }
 
-  /*****************************************************************************
-   *
-   * Methods to update/refresh the UI
-   *
-   ****************************************************************************/
+  function updateStatus(card, statusId) {
+    if(card.classList.contains('read')) {
+      return;
+    }
+    var dataDumpId = card.dataset.dataDumpId;
+    var dataPromise = getData(`${baseURL}/updateStatus?data_dump_id=${dataDumpId}&status_id=${statusId}`);
+    dataPromise.then(function(response) {
+      card.classList.remove('unread');
+      card.classList.add('read');
+    }).catch(function(err) {
+      throw new Error('Error while updating status', err);
+    });
+  }
 
-  // Toggles the visibility of the add new city dialog.
   app.toggleAddDialog = function(visible) {
     if (visible) {
       app.addDialog.classList.add('dialog-container--visible');
@@ -106,18 +69,19 @@
     }
   };
 
-  // Updates a weather card with the latest weather forecast. If the card
-  // doesn't already exist, it's cloned from the template.
   app.updateData = function(data) {
-    console.log(data);
     var tabIndex = 0;
+    data.sort(function(a, b){
+      return (a.status > b.status)? -1 : 1;
+    });
     data.forEach(function (d) {
       var card = app.visibleCards[d.id];
       if(!card) {
         card = app.cardTemplate.cloneNode(true);
         card.classList.remove('cardTemplate');
         card.setAttribute('tabIndex', tabIndex++);
-        card.querySelector('.data').innerHTML = d.data + 'aaaaaaaaaaaaaaaaaasdlkf ajlsdkfj alksdjflka dsjflk ajdslkfjalskdjf laksdjfl asdjfklasjdflkajsdklfjalskdfjalksdjfl akjsdlfkajlsd '; 
+        card.dataset.dataDumpId = d.id;
+        card.querySelector('.data').innerHTML = d.data; 
         card.querySelector('.user').textContent = d.owner.name;
         card.querySelector('.group').textContent = d.group.name;
         var status = d.status.toLowerCase();
@@ -133,24 +97,14 @@
       app.isLoading = false;
     }
     addFocusEvents();
+    return data;
   };
 
-  var dataPromise = getAllInitialData();
+  var dataPromise = getData(`${baseURL}/getAllData`);
   dataPromise.then(function(response) {
-    app.updateData(response);
+    _data = app.updateData(JSON.parse(response));
   }).catch(function(err) {
     throw new Error('Error while fetching data', err);
   });
-  
-
-  function getAllInitialData() {
-    return new Promise(function(resolve, reject) {
-      fetch('http://localhost:5000/getAllData').then(function(response) {
-        resolve(response.json());
-      }).catch(function(err) {
-        reject(err);
-      });
-    });
-  }
 
 })();
